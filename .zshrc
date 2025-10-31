@@ -64,6 +64,7 @@ zi snippet OMZP::git
 zi snippet OMZP::ruby
 zi snippet OMZP::conda-env
 zi snippet OMZP::sudo
+zi snippet OMZP::colored-man-pages
 
 # Auto suggestions:
 zinit wait lucid for \
@@ -94,6 +95,7 @@ _fzf_compgen_dir() {
    fd --type=d --hidden --exclude .git . "$1"
 }
 
+
 show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
 
 export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
@@ -113,6 +115,21 @@ _fzf_comprun() {
     *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
   esac
 }
+# IMPORTANT: kitty-scrollback.nvim only supports zsh 5.9 or greater for command-line editing,
+# please check your version by running: zsh --version
+# add the following environment variables to your zsh config (e.g., ~/.zshrc)
+autoload -Uz edit-command-line
+zle -N edit-command-line
+function kitty_scrollback_edit_command_line() { 
+  local VISUAL='/home/ham/.local/share/nvim/lazy/kitty-scrollback.nvim/scripts/edit_command_line.sh'
+  zle edit-command-line
+  zle kill-whole-line
+}
+zle -N kitty_scrollback_edit_command_line
+bindkey '^x^e' kitty_scrollback_edit_command_line
+# [optional] pass arguments to kitty-scrollback.nvim in command-line editing mode
+# by using the environment variable KITTY_SCROLLBACK_NVIM_EDIT_ARGS
+# export KITTY_SCROLLBACK_NVIM_EDIT_ARGS=''
 
 # FZF Theme:
 export FZF_DEFAULT_OPTS=" \
@@ -141,3 +158,11 @@ zstyle 'fzf-tab:complete:cd:*' fzf-preview --preview='eza --tree --color=always 
 
 source $HOME/.aliases
 source $HOME/.private_zshrc
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/ham/.lmstudio/bin"
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+# End of LM Studio CLI section
+
+autoload -U compinit; compinit

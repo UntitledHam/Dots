@@ -8,6 +8,9 @@ alias unblock='mesg y'
 
 alias edit="edit-in-kitty"
 
+alias backupmusic="rsync -avh --update --progress --partial -e ssh ~/Music/ midna:/mnt/yeta/navidrome/music/"
+alias pullmusic="rsync -avh --update --progress --partial -e ssh midna:/mnt/yeta/navidrome/music/ ~/Music/"
+
 alias please="sudo"
 alias tty-clock="tty-clock -C 6 -c"
 alias mk="musikcube"
@@ -16,6 +19,15 @@ alias update-river="$HOME/.config/river/init"
 alias img="kitty +kitten icat"
 alias hx="helix"
 alias grep="grep --color"
+alias ploorpscan="arp-scan -lv"
+# alias takenotes="nvim ~/Notes/."
+
+dbash() {
+    docker exec -it $1 bash
+}
+
+
+alias runlocalify="java -jar ./build/libs/localify-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev,default"
 
 alias "pip"="uv pip"
 
